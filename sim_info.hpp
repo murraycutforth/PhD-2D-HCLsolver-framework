@@ -7,8 +7,8 @@
  * 	DATE:		19/07/2017
  */
 
-#ifndef GRID_INFO_H
-#define GRID_INFO_H
+#ifndef SIM_INFO_H
+#define SIM_INFO_H
 
 struct sim_info {
 	
@@ -26,6 +26,9 @@ struct sim_info {
 	
 	double T;
 	std::string outputname;
+	
+	sim_info ()
+	{}
 	
 	sim_info (settings_file SF)
 	{

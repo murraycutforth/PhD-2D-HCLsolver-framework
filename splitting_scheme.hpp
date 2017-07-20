@@ -25,7 +25,7 @@ class splitting_scheme_base {
 	virtual void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, double dt, double t) =0;
 };
 
-class naive_splitting {
+class naive_splitting : public splitting_scheme_base {
 	
 	public:
 	
@@ -34,32 +34,38 @@ class naive_splitting {
 		problem->pre_sweep(grid, params);
 		
 		// TODO: parallelise with openMP
-		
-		for (int i=0; i<params.Nx; ++i)
+		for (int i=0; i<params.Ny; ++i)
 		{
 			problem->update_row(grid, future_grid, params, i, dt, t);
 		}
 		
-		problem->post_sweep(grid, params);
+		problem->post_sweep(grid, future_grid, params);
+		problem->pre_sweep(grid, params);
 		
-		// TODO: implement y-sweep
+		// TODO: parallelise with openMP
+		for (int j=0; j<params.Nx; ++j)
+		{
+			problem->update_col(grid, future_grid, params, j, dt, t);
+		}
+		
+		problem->post_sweep(grid, future_grid, params);
 	}
 };
 
 std::shared_ptr<splitting_scheme_base> set_splitting_scheme (settings_file SF)
 {
-	std::shared_ptr<splitting_scheme_base> returnss = nullptr;
+	std::shared_ptr<splitting_scheme_base> ss = nullptr;
 	
 	if (SF.splitting_scheme == "naive_splitting")
 	{
-		returnss = make_shared<naive_splitting>();
+		ss = std::make_shared<naive_splitting>();
 	}
 	else
 	{
 		assert(!"Unknown splitting scheme specified in settingsfile");
 	}
 	
-	return returnss;
+	return ss;
 }
 
 #endif

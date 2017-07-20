@@ -9,8 +9,10 @@
 #define TYPEDEFS_H
 
 #include <vector>
-#include <blitz/array.h>
+#include <Eigen/Dense>
 
-typedef std::vector<std::vector<blitz::Array<double,1>>> gridtype;
+typedef Eigen::VectorXd vectype;
+typedef std::vector<vectype> rowtype;
+typedef std::vector<rowtype> gridtype;
 
 #endif
