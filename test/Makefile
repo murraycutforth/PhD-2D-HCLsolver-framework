@@ -6,13 +6,13 @@
 EIGEN := -I/home/raid/mcc74/Libraries/eigen-v3.3.4
 
 test: main.o testproblem.o
-	g++ -fopenmp -o test main.o testproblem.o
+	g++ -fopenmp -O3 -o test main.o testproblem.o
 
-main.o: main.cpp ./../settings_file.hpp testproblem.hpp ./../simulation.hpp
-	g++ -g -Wall -std=c++11 $(EIGEN) -c main.cpp
+main.o: main.cpp ./../settings_file.hpp testproblem.hpp ./../simulation.hpp ./../splitting_scheme.hpp
+	g++ -Wall -std=c++11 $(EIGEN) -fopenmp -O3 -c main.cpp
 
 testproblem.o: testproblem.hpp testproblem.cpp ./../settings_file.hpp ./../typedefs.hpp ./../problem_base.hpp
-	g++ -g -Wall -std=c++11 $(EIGEN) -c testproblem.cpp
+	g++ -Wall -std=c++11 $(EIGEN) -fopenmp -O3 -c testproblem.cpp
 
 clean:
 	rm *.o test

@@ -60,11 +60,11 @@ void testproblem :: pre_sweep (gridtype& grid, const sim_info& params)
 	}
 }
 	
-void testproblem :: update_row (gridtype& grid, gridtype& future_grid, const sim_info& params, int i, double dt, double t)
+void testproblem :: update_row (const gridtype& grid, gridtype& future_grid, const sim_info& params, int i, double dt, double t)
 {
 	// Iterate along row and do very expensive operation on each element
 	
-	int N = 10000000.0;
+	int N = 1000000.0;
 		
 	for (int j=1; j<params.Nx - 1; j++)
 	{
@@ -75,15 +75,15 @@ void testproblem :: update_row (gridtype& grid, gridtype& future_grid, const sim
 			sum += sin(k) + pow(cos(k)*cos(k), 1.0 / sqrt(k+1));
 		}
 		
-		future_grid[i][j](2) = sum / N + future_grid[i][j - 1](2) + future_grid[i][j + 1](2);
+		future_grid[i][j](2) = sum / N + grid[i][j - 1](2) + grid[i][j + 1](2);
 	}
 }
 	
-void testproblem :: update_col (gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t)
+void testproblem :: update_col (const gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t)
 {
 	// Iterate down column and do very expensive operation on each element
 		
-	int N = 10000000.0;
+	int N = 1000000.0;
 		
 	for (int i=1; i<params.Ny - 1; i++)
 	{
@@ -94,7 +94,7 @@ void testproblem :: update_col (gridtype& grid, gridtype& future_grid, const sim
 			sum += sin(k) + pow(cos(k)*cos(k), 1.0 / sqrt(k+1));
 		}
 		
-		future_grid[i][j](2) = sum / N + future_grid[i - 1][j](2) + future_grid[i + 1][j](2);
+		future_grid[i][j](2) = sum / N + grid[i - 1][j](2) + grid[i + 1][j](2);
 	}
 }
 	

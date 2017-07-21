@@ -27,9 +27,9 @@ class problem_base {
 	
 	virtual void pre_sweep (gridtype& grid, const sim_info& params) =0;
 	
-	virtual void update_row (gridtype& grid, gridtype& future_grid, const sim_info& params, int i, double dt, double t) =0;
+	virtual void update_row (const gridtype& grid, gridtype& future_grid, const sim_info& params, int i, double dt, double t) =0;
 	
-	virtual void update_col (gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t) =0;
+	virtual void update_col (const gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t) =0;
 	
 	virtual void post_sweep (gridtype& grid, gridtype& future_grid, const sim_info& params) =0;
 	

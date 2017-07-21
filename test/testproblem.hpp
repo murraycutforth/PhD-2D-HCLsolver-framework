@@ -26,9 +26,9 @@ class testproblem : public problem_base {
 	
 	void pre_sweep (gridtype& grid, const sim_info& params);
 	
-	void update_row (gridtype& grid, gridtype& future_grid, const sim_info& params, int i, double dt, double t);
+	void update_row (const gridtype& grid, gridtype& future_grid, const sim_info& params, int i, double dt, double t);
 	
-	void update_col (gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t);
+	void update_col (const gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t);
 	
 	void post_sweep (gridtype& grid, gridtype& future_grid, const sim_info& params);
 	

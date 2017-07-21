@@ -17,23 +17,24 @@
 #include <memory>
 #include <cassert>
 #include <string>
+#include <omp.h>
 
 class splitting_scheme_base {
 	
 	public:
 	
-	virtual void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, double dt, double t) =0;
+	virtual void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, const double dt, const double t) =0;
 };
 
 class naive_splitting : public splitting_scheme_base {
 	
 	public:
 	
-	void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, double dt, double t)
+	void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, const double dt, const double t)
 	{
 		problem->pre_sweep(grid, params);
-		
-		// TODO: parallelise with openMP
+				
+		#pragma omp parallel for schedule(static)
 		for (int i=0; i<params.Ny; ++i)
 		{
 			problem->update_row(grid, future_grid, params, i, dt, t);
@@ -42,7 +43,7 @@ class naive_splitting : public splitting_scheme_base {
 		problem->post_sweep(grid, future_grid, params);
 		problem->pre_sweep(grid, params);
 		
-		// TODO: parallelise with openMP
+		#pragma omp parallel for schedule(static)
 		for (int j=0; j<params.Nx; ++j)
 		{
 			problem->update_col(grid, future_grid, params, j, dt, t);

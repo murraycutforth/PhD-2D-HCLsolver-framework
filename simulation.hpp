@@ -13,8 +13,8 @@
 
 #include <string>
 #include <vector>
-#include <blitz/array.h>
 #include <memory>
+#include <iostream>
 #include "sim_info.hpp"
 #include "settings_file.hpp"
 #include "typedefs.hpp"

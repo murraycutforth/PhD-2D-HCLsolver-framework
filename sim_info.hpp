@@ -29,11 +29,6 @@ struct sim_info {
 	
 	sim_info ()
 	{}
-	
-	sim_info (settings_file SF)
-	{
-		// TODO: Implement definition of gridinfo constructor from settings file
-	}
 };
 
 #endif
