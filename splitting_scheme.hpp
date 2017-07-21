@@ -35,7 +35,7 @@ class naive_splitting : public splitting_scheme_base {
 		problem->pre_sweep(grid, params);
 				
 		#pragma omp parallel for schedule(static)
-		for (int i=0; i<params.Ny; ++i)
+		for (int i=0; i<params.Ny + 2 * params.numGC; ++i)
 		{
 			problem->update_row(grid, future_grid, params, i, dt, t);
 		}
@@ -44,7 +44,7 @@ class naive_splitting : public splitting_scheme_base {
 		problem->pre_sweep(grid, params);
 		
 		#pragma omp parallel for schedule(static)
-		for (int j=0; j<params.Nx; ++j)
+		for (int j=0; j<params.Nx + 2 * params.numGC; ++j)
 		{
 			problem->update_col(grid, future_grid, params, j, dt, t);
 		}

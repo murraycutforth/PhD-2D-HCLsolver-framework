@@ -25,6 +25,7 @@ struct sim_info {
 	std::string BC_R;
 	
 	double T;
+	double CFL;
 	std::string outputname;
 	
 	sim_info ()

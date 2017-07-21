@@ -20,28 +20,28 @@
 namespace eos
 {
 
-	double pressure (double gamma, double pinf, double e, double rho)
+	inline double pressure (double gamma, double pinf, double e, double rho)
 	{
 		return (gamma - 1.0) * rho * e - gamma * pinf;
 	}
 	
-	double specific_ie (double gamma, double pinf, double p, double rho)
+	inline double specific_ie (double gamma, double pinf, double p, double rho)
 	{
 		return (p + gamma * pinf) / ((gamma - 1.0) * rho);
 	}
 	
-	double soundspeed (double gamma, double pinf, double p, double rho)
+	inline double soundspeed (double gamma, double pinf, double p, double rho)
 	{
 		return sqrt((gamma * (p + pinf)) / rho);
 	}
 	
-	double bulkmodulus (double gamma, double pinf, double p, double rho)
+	inline double bulkmodulus (double gamma, double pinf, double p, double rho)
 	{
 		double c = soundspeed(gamma, pinf, p, rho);
 		return c * c * rho;
 	}
 	
-	double isentropic_extrapolation (double gamma, double pinf, double rho_old, double p_old, double p_new)
+	inline double isentropic_extrapolation (double gamma, double pinf, double rho_old, double p_old, double p_new)
 	{
 		/* 
 		 * Find the density rho_new such that the state (rho_new, p_new)
