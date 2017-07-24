@@ -28,6 +28,10 @@ struct sim_info {
 	double CFL;
 	std::string outputname;
 	
+	std::string riemann_solver;
+	int stclsize;
+	std::string flux_solver;
+	
 	sim_info ()
 	{}
 };

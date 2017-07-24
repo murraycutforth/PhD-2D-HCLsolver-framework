@@ -28,6 +28,10 @@ class splitting_scheme_base {
 
 class naive_splitting : public splitting_scheme_base {
 	
+	/*
+	 * First order accurate dimensional splitting
+	 */
+	
 	public:
 	
 	void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, const double dt, const double t)
@@ -35,7 +39,7 @@ class naive_splitting : public splitting_scheme_base {
 		problem->pre_sweep(grid, params);
 				
 		#pragma omp parallel for schedule(static)
-		for (int i=0; i<params.Ny + 2 * params.numGC; ++i)
+		for (int i=params.numGC; i<params.Ny + params.numGC; ++i)
 		{
 			problem->update_row(grid, future_grid, params, i, dt, t);
 		}
@@ -44,9 +48,49 @@ class naive_splitting : public splitting_scheme_base {
 		problem->pre_sweep(grid, params);
 		
 		#pragma omp parallel for schedule(static)
-		for (int j=0; j<params.Nx + 2 * params.numGC; ++j)
+		for (int j=params.numGC; j<params.Nx + params.numGC; ++j)
 		{
 			problem->update_col(grid, future_grid, params, j, dt, t);
+		}
+		
+		problem->post_sweep(grid, future_grid, params);
+	}
+};
+
+class strang_splitting : public splitting_scheme_base {
+	
+	/*
+	 * Second order accurate strang splitting approach
+	 */
+	
+	public:
+	
+	void advance_timestep(std::shared_ptr<problem_base> problem, gridtype& grid, gridtype& future_grid, const sim_info& params, const double dt, const double t)
+	{
+		problem->pre_sweep(grid, params);
+				
+		#pragma omp parallel for schedule(static)
+		for (int i=params.numGC; i<params.Ny + params.numGC; ++i)
+		{
+			problem->update_row(grid, future_grid, params, i, 0.5 * dt, t);
+		}
+		
+		problem->post_sweep(grid, future_grid, params);
+		problem->pre_sweep(grid, params);
+		
+		#pragma omp parallel for schedule(static)
+		for (int j=params.numGC; j<params.Nx + params.numGC; ++j)
+		{
+			problem->update_col(grid, future_grid, params, j, dt, t);
+		}
+		
+		problem->post_sweep(grid, future_grid, params);
+		problem->pre_sweep(grid, params);
+		
+		#pragma omp parallel for schedule(static)
+		for (int i=params.numGC; i<params.Ny + params.numGC; ++i)
+		{
+			problem->update_row(grid, future_grid, params, i, 0.5 * dt, t);
 		}
 		
 		problem->post_sweep(grid, future_grid, params);
@@ -60,6 +104,10 @@ std::shared_ptr<splitting_scheme_base> set_splitting_scheme (settings_file SF)
 	if (SF.splitting_scheme == "naive_splitting")
 	{
 		ss = std::make_shared<naive_splitting>();
+	}
+	else if (SF.splitting_scheme == "strang_splitting")
+	{
+		ss = std::make_shared<strang_splitting>();
 	}
 	else
 	{

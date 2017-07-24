@@ -55,6 +55,10 @@ class settings_file {
 			
 			else if (inputname == "outputpath") iss >> outputpath;
 			
+			else if (inputname == "flux_solver") iss >> flux_solver;
+			
+			else if (inputname == "riemann_solver") iss >> riemann_solver;
+			
 			else
 			{
 				assert(!"Invalid line in settings file");
