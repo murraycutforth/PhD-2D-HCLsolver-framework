@@ -38,19 +38,29 @@ class naive_splitting : public splitting_scheme_base {
 	{
 		problem->pre_sweep(grid, params);
 				
-		#pragma omp parallel for schedule(static)
-		for (int i=params.numGC; i<params.Ny + params.numGC; ++i)
-		{
-			problem->update_row(grid, future_grid, params, i, dt, t);
+		#pragma omp parallel
+		{ 
+			std::shared_ptr<problem_base> threadproblem = problem->clone();
+			
+			#pragma omp for schedule(guided) 
+			for (int i=params.numGC; i<params.Ny + params.numGC; ++i)
+			{
+				threadproblem->update_row(grid, future_grid, params, i, dt, t);
+			}
 		}
 		
 		problem->post_sweep(grid, future_grid, params);
 		problem->pre_sweep(grid, params);
 		
-		#pragma omp parallel for schedule(static)
-		for (int j=params.numGC; j<params.Nx + params.numGC; ++j)
-		{
-			problem->update_col(grid, future_grid, params, j, dt, t);
+		#pragma omp parallel
+		{ 
+			std::shared_ptr<problem_base> threadproblem = problem->clone();
+			
+			#pragma omp for schedule(guided)
+			for (int j=params.numGC; j<params.Nx + params.numGC; ++j)
+			{
+				threadproblem->update_col(grid, future_grid, params, j, dt, t);
+			}
 		}
 		
 		problem->post_sweep(grid, future_grid, params);

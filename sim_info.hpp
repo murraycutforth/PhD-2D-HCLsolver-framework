@@ -10,6 +10,8 @@
 #ifndef SIM_INFO_H
 #define SIM_INFO_H
 
+#include <Eigen/Dense>
+
 struct sim_info {
 	
 	int Nx;
@@ -27,13 +29,19 @@ struct sim_info {
 	double T;
 	double CFL;
 	std::string outputname;
-	
-	std::string riemann_solver;
 	int stclsize;
-	std::string flux_solver;
+
 	
 	sim_info ()
 	{}
+	
+	Eigen::Vector2d cellcentre_coord (int i, int j)
+	{
+		Eigen::Vector2d cc;
+		cc(0) = x0 + double(j - numGC) * dx + 0.5 * dx;
+		cc(1) = y0 + double(i - numGC) * dy + 0.5 * dy;
+		return cc;
+	}
 };
 
 #endif

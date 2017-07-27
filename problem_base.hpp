@@ -23,7 +23,7 @@ class problem_base {
 	
 	virtual void output (const gridtype& grid, const sim_info& params, int n, double t) =0;
 	
-	virtual double compute_dt (const gridtype& grid, const sim_info& params, double t) =0;
+	virtual double compute_dt (const gridtype& grid, const sim_info& params, int n, double t) =0;
 	
 	virtual void pre_sweep (gridtype& grid, const sim_info& params) =0;
 	
@@ -33,6 +33,10 @@ class problem_base {
 	
 	virtual void post_sweep (gridtype& grid, gridtype& future_grid, const sim_info& params) =0;
 	
+	
+	// Clone function which returns a shared_ptr<problem_base> object for deep copy of problem between threads
+	
+	virtual std::shared_ptr<problem_base> clone () =0;
 };
 
 #endif

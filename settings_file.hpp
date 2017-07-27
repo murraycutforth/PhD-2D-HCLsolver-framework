@@ -28,6 +28,8 @@ class settings_file {
 	int output;
 	std::string outputpath;
 	std::string basename;
+	std::string flux_solver;
+	std::string riemann_solver;
 	
 	void read_settings_file (std::string filename)
 	{
@@ -58,14 +60,14 @@ class settings_file {
 			else if (inputname == "flux_solver") iss >> flux_solver;
 			
 			else if (inputname == "riemann_solver") iss >> riemann_solver;
-			
+						
 			else
 			{
 				assert(!"Invalid line in settings file");
 			}
 		}
 			
-		basename = outputpath + test_case + "-" + std::to_string(Nx) + "-" + std::to_string(Ny) + ".dat";
+		basename = outputpath + test_case + "-" + std::to_string(Nx) + "-" + std::to_string(Ny);
 		infile.close();
 			
 	}

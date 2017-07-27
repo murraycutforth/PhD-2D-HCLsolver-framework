@@ -49,12 +49,13 @@ class simulation {
 		{
 			problem->output(*grid, params, n, t);
 			
-			dt = problem->compute_dt(*grid, params, t);
+			dt = problem->compute_dt(*grid, params, n, t);
 			
 			splitting_scheme->advance_timestep(problem, *grid, *future_grid, params, dt, t);
 						
 			t += dt;
 			n++;
+			if (fabs(t - params.T) < 1e-12) t = params.T;
 			
 			std::cout << "[simulation] Time step " << n << " complete. Time t = " << t << "." << std::endl;
 		}
