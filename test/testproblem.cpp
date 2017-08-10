@@ -1,5 +1,5 @@
 #include "testproblem.hpp"
-#include "./../sim_info.hpp"
+#include "sim_info.hpp"
 #include <iostream>
 #include <cmath>
 #include <memory>
@@ -45,7 +45,7 @@ void testproblem :: output (const gridtype& grid, const sim_info& params, int n,
 	std::cout << std::endl;
 }
 	
-double testproblem :: compute_dt (const gridtype& grid, const sim_info& params, double t)
+double testproblem :: compute_dt (const gridtype& grid, const sim_info& params, int n, double t)
 {
 	return 0.5;
 }

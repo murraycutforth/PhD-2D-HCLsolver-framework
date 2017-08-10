@@ -11,8 +11,8 @@
 #define TESTPROBLEM_H
 
 #include "./../problem_base.hpp"
-#include "./../typedefs.hpp"
-#include "./../settings_file.hpp"
+#include "typedefs.hpp"
+#include "settings_file.hpp"
 
 class testproblem : public problem_base {
 	
@@ -22,7 +22,7 @@ class testproblem : public problem_base {
 	
 	void output (const gridtype& grid, const sim_info& params, int n, double t);
 	
-	double compute_dt (const gridtype& grid, const sim_info& params, double t);
+	double compute_dt (const gridtype& grid, const sim_info& params, int n, double t);
 	
 	void pre_sweep (gridtype& grid, const sim_info& params);
 	
@@ -31,6 +31,11 @@ class testproblem : public problem_base {
 	void update_col (const gridtype& grid, gridtype& future_grid, const sim_info& params, int j, double dt, double t);
 	
 	void post_sweep (gridtype& grid, gridtype& future_grid, const sim_info& params);
+	
+	std::shared_ptr<problem_base> clone ()
+	{
+		return nullptr;
+	}
 	
 };
 

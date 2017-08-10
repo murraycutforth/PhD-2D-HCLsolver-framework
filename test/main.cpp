@@ -6,7 +6,7 @@
  * 	DATE:		20/07/2017
  */
 
-#include "./../settings_file.hpp"
+#include "settings_file.hpp"
 #include "./../problem_base.hpp"
 #include "./../simulation.hpp"
 #include "testproblem.hpp"

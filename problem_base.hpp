@@ -17,7 +17,7 @@
 
 class problem_base {
 	
-	public:
+public:
 	
 	virtual std::shared_ptr<gridtype> set_ICs (settings_file SF, sim_info& params) =0;
 	
