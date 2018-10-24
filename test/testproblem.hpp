@@ -34,7 +34,7 @@ class testproblem : public problem_base {
 	
 	std::shared_ptr<problem_base> clone ()
 	{
-		return nullptr;
+		return std::make_shared<testproblem>(*this);
 	}
 	
 };

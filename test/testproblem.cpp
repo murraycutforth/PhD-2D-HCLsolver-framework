@@ -10,10 +10,10 @@ std::shared_ptr<gridtype> testproblem :: set_ICs (settings_file SF, sim_info& pa
 	params.Ny = SF.Ny;
 	params.T = 0.9;
 	
-	// Initialise a 2D grid of vectors in R^5
+	// Initialise a 2D grid of vectors in R^3
 	gridtype testgrid (SF.Ny, rowtype(SF.Nx, vectype(3)));
 	
-	// Loop over grid and set element i,j to i*Nx + j except for last component
+	// Loop over grid and initialise values of each vector
 	for (int i=0; i<SF.Ny; i++)
 	{
 		for (int j=0; j<SF.Nx; j++)
@@ -38,7 +38,9 @@ void testproblem :: output (const gridtype& grid, const sim_info& params, int n,
 	{
 		for (int j=0; j<params.Nx; j++)
 		{
-			std::cout << "(" << grid[i][j](0) << "," << grid[i][j](1) << "," << grid[i][j](2) << ")" << "\t";
+			std::cout << "(" << grid[i][j](0) << "," 
+				  << grid[i][j](1) << "," 
+				  << grid[i][j](2) << ")" << "\t";
 		}
 		std::cout << std::endl;
 	}
